@@ -1,0 +1,119 @@
+/* Import the font so 'Poppins' actually works */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Custom Properties */
+:root {
+  --mint: #2ec4b6;
+  --navy: #202c39;
+  --amber: #ffbf69;
+  --ice: #f8fdff; /* Your Light Background Color */
+  --text-dark: #2d3436;
+}
+
+/* Apply background to the entire HTML and Body */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--ice); /* This ensures the whole screen stays light */
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  scroll-behavior: smooth;
+}
+
+/* --- Layout Helper --- */
+/* Use this class on your main wrapper in App.js to ensure
+   the background covers the space between header and footer */
+.main-content {
+  min-height: calc(100vh - 160px); /* Adjust based on header/footer height */
+  background-color: var(--ice);
+}
+
+/* --- Header Styling --- */
+.custom-navbar {
+  background-color: var(--navy) !important;
+  border-bottom: 3px solid var(--mint);
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand .fw-bold {
+  color: var(--mint) !important;
+  letter-spacing: 1px;
+}
+
+/* Search Bar - Pill Style */
+.custom-navbar .form-control {
+  border-radius: 50px 0 0 50px;
+  border: 2px solid transparent;
+  padding-left: 20px;
+}
+
+.custom-navbar .btn-light {
+  background-color: var(--mint) !important;
+  color: white !important;
+  border-radius: 0 50px 50px 0;
+  font-weight: 600;
+  padding: 0 20px;
+  border: none;
+}
+
+/* Nav Links */
+.nav-link {
+  color: rgba(255,255,255,0.8) !important;
+  font-weight: 500;
+  margin-left: 15px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--mint) !important;
+  transform: translateY(-2px);
+}
+
+/* --- Global Button --- */
+.btn-primary-custom {
+  background-color: var(--mint);
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.btn-primary-custom:hover {
+  background-color: #24a196;
+  box-shadow: 0 4px 15px rgba(46, 196, 182, 0.4);
+}
+
+/* --- Footer Styling --- */
+footer {
+  background-color: var(--navy);
+  color: white;
+  padding: 60px 0 30px 0;
+  margin-top: 0; /* Changed from 50px to 0 to prevent white gaps */
+}
+/* Ensure the wrapper takes up the full height of the browser */
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--ice); /* Applying your mint-ice color here */
+}
+
+/* This pushes the footer to the bottom and ensures the middle content
+   shares the same background */
+.content-area {
+  flex: 1;
+  background-color: var(--ice);
+  width: 100%;
+}
+
+/* Fix for potential white edges on the body */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--ice);
+}

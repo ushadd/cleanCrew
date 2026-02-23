@@ -1,0 +1,126 @@
+:root {
+  --primary-color: #4f46e5;
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --card-bg: #ffffff;
+}
+
+.services-section {
+  padding: 100px 0;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+}
+
+.badge-outline {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.modern-service-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 40px 30px;
+  height: 100%;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.modern-service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px -15px rgba(79, 70, 229, 0.15);
+  border-color: rgba(79, 70, 229, 0.2);
+}
+
+.card-tag {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  background: #eef2ff;
+  color: var(--primary-color);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.service-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.card-body-content h4 {
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 15px;
+}
+
+.card-body-content p {
+  color: #64748b;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.service-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-bottom: 25px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.price-box {
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.amount {
+  font-size: 1.5rem;
+}
+
+.btn-modern {
+  width: 100%;
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.3s;
+}
+
+.btn-modern:hover {
+  background: var(--primary-color);
+}
