@@ -65,6 +65,20 @@ public class BookingController {
         return bookingsService.updateBookingStatus(id, newStatus);
     }
 
+    // Update booking confirmation - customer confirms service completion
+    @PutMapping("/confirm/{id}")
+    public Booking confirmBooking(@PathVariable Integer id, @RequestBody Map<String, Boolean> confirmationData) {
+        Boolean confirmed = confirmationData.get("confirmed");
+        return bookingsService.confirmBooking(id, confirmed);
+    }
+
+    // Staff confirms the booking - staff accepts the service request
+    @PutMapping("/staff-confirm/{id}")
+    public Booking staffConfirmBooking(@PathVariable Integer id, @RequestBody Map<String, Boolean> confirmationData) {
+        Boolean confirmed = confirmationData.get("confirmed");
+        return bookingsService.staffConfirmBooking(id, confirmed);
+    }
+
     // Get bookings for staff - staff can see their assigned bookings
     @GetMapping("/staff/{staffId}")
     public List<Booking> getStaffBookings(@PathVariable Long staffId) {

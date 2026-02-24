@@ -29,6 +29,8 @@ public class Booking {
     private LocalDateTime booking_date_time;
     private String status;
     private String property_type;
+    private Boolean customerConfirmation = false;
+    private Boolean staffConfirmation = false;
 
     /*
      * public enum booking_status{

@@ -92,6 +92,11 @@ export const updateBookingStatus = async (bookingId, status) => {
   return await api.put(`/bookings/status/${bookingId}`, { status });
 };
 
+// Confirm booking by customer (after service is completed)
+export const confirmBooking = async (bookingId, confirmed) => {
+  return await api.put(`/bookings/confirm/${bookingId}`, { confirmed });
+};
+
 // ========== Payment API calls ==========
 
 // Create payment after booking

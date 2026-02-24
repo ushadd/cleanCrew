@@ -130,6 +130,30 @@ public class BookingService {
         return null;
     }
 
+    // Update booking confirmation - customer confirms service completion
+    public Booking confirmBooking(Integer bookingId, Boolean confirmed) {
+        Booking booking = bookingsRepo.findById(bookingId).orElse(null);
+        if (booking != null) {
+            booking.setCustomerConfirmation(confirmed);
+            return bookingsRepo.save(booking);
+        }
+        return null;
+    }
+
+    // Staff confirms the booking - staff accepts the service request
+    public Booking staffConfirmBooking(Integer bookingId, Boolean confirmed) {
+        Booking booking = bookingsRepo.findById(bookingId).orElse(null);
+        if (booking != null) {
+            booking.setStaffConfirmation(confirmed);
+            // If staff confirms, automatically update status to Accepted
+            if (confirmed) {
+                booking.setStatus("Accepted");
+            }
+            return bookingsRepo.save(booking);
+        }
+        return null;
+    }
+
     // This Below Code For insert The Data.
     public List<Booking> insertbookings(List<Booking> bookings) {
         return bookingsRepo.saveAll(bookings);

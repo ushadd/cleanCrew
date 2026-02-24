@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCustomerBookings, updateBookingStatus } from "../services/api";
-import { Calendar, Clock, User, CheckCircle, Star, History, AlertCircle } from "lucide-react";
+import { getCustomerBookings, updateBookingStatus, confirmBooking } from "../services/api";
+import { Calendar, Clock, User, CheckCircle, Star, History, AlertCircle, ThumbsUp } from "lucide-react";
 import "./Booking.css";
 
 function BookingHistory() {
@@ -10,6 +10,7 @@ function BookingHistory() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [refreshing, setRefreshing] = useState(false);
+    const [confirming, setConfirming] = useState(null);
 
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
@@ -54,6 +55,21 @@ function BookingHistory() {
                 }
             }
         });
+    };
+
+    const handleConfirmService = async (bookingId) => {
+        setConfirming(bookingId);
+        try {
+            await confirmBooking(bookingId, true);
+            // Refresh the bookings list
+            await fetchBookings();
+            alert("Service confirmed! Thank you for confirming.");
+        } catch (err) {
+            console.error("Error confirming booking:", err);
+            setError("Failed to confirm service");
+        } finally {
+            setConfirming(null);
+        }
     };
 
     const getStatusBadge = (status) => {
@@ -125,14 +141,35 @@ function BookingHistory() {
 
                                 {/* Action buttons based on booking status */}
                                 <div className="booking-actions">
-                                    {booking.status === "Completed" ? (
-                                        <button
-                                            className="rate-btn"
-                                            onClick={() => handleRateService(booking)}
-                                        >
-                                            <Star size={18} />
-                                            Rate Service
-                                        </button>
+                                    {booking.status === "Completed" && !booking.customerConfirmation ? (
+                                        <>
+                                            <button
+                                                className="confirm-btn"
+                                                onClick={() => handleConfirmService(booking.bookingId || booking.id)}
+                                                disabled={confirming === (booking.bookingId || booking.id)}
+                                            >
+                                                <ThumbsUp size={18} />
+                                                {confirming === (booking.bookingId || booking.id) ? "Confirming..." : "Confirm Service Completed"}
+                                            </button>
+                                            <button
+                                                className="rate-btn"
+                                                onClick={() => handleRateService(booking)}
+                                            >
+                                                <Star size={18} />
+                                                Rate Service
+                                            </button>
+                                        </>
+                                    ) : booking.status === "Completed" && booking.customerConfirmation ? (
+                                        <div className="confirmed-message">
+                                            <CheckCircle size={18} /> Service Confirmed
+                                            <button
+                                                className="rate-btn"
+                                                onClick={() => handleRateService(booking)}
+                                            >
+                                                <Star size={18} />
+                                                Rate Service
+                                            </button>
+                                        </div>
                                     ) : booking.status === "Pending" || booking.status === "Accepted" ? (
                                         <div className="status-message">
                                             <Clock size={16} />
