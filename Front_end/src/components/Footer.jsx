@@ -1,90 +1,120 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Footer() {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    alert(`Thank you for subscribing with: ${email}`);
+    setEmail("");
+  };
+
   return (
-    <footer className="bg-dark text-white pt-5 pb-3 mt-5">
+    <footer className="py-5 mt-5 border-top border-dark" style={{ backgroundColor: "#1a252f" }}>
       <div className="container">
-        <div className="row g-4">
 
-          {/* Brand & Mission */}
-          <div className="col-lg-4 col-md-6">
-            <h5 className="fw-bold mb-3 text-primary">CleanCrew.</h5>
-            <p className="text-secondary small mb-4" style={{ lineHeight: '1.8' }}>
-              Premium residential and commercial housekeeping services.
-              We don't just clean; we create healthy living spaces with
-              vetted professionals you can trust.
-            </p>
-            <div className="d-flex gap-3 mb-4">
-              {/* Simple Social Icons - Using basic Bootstrap Icons or generic spans */}
-              <a href="#" className="text-secondary text-decoration-none"><i className="bi bi-facebook"></i></a>
-              <a href="#" className="text-secondary text-decoration-none"><i className="bi bi-instagram"></i></a>
-              <a href="#" className="text-secondary text-decoration-none"><i className="bi bi-twitter-x"></i></a>
-            </div>
+        {/* --- SUBSCRIBE SECTION --- */}
+        <div className="row justify-content-center mb-5 pb-5 border-bottom" style={{ borderColor: "rgba(255,255,255,0.05) !important" }}>
+          <div className="col-md-6 text-center">
+            <h4 className="fw-bold text-white mb-2">Join the CleanCrew Club</h4>
+            <p className="text-light opacity-50 small mb-4">Subscribe for exclusive cleaning deals and home maintenance tips.</p>
+            <form onSubmit={handleSubscribe} className="d-flex gap-2">
+              <input
+                type="email"
+                className="form-control subscribe-input"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <button type="submit" className="btn btn-subscribe px-4 fw-bold">Subscribe</button>
+            </form>
           </div>
-
-          {/* Quick Links */}
-          <div className="col-lg-2 col-6">
-            <h6 className="fw-bold mb-3">Company</h6>
-            <ul className="list-unstyled small text-secondary">
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none hover-white">About Us</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none hover-white">Our Services</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none hover-white">Service Areas</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none hover-white">Join the Team</a></li>
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div className="col-lg-2 col-6">
-            <h6 className="fw-bold mb-3">Support</h6>
-            <ul className="list-unstyled small text-secondary">
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none">Help Center</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none">Safety Policy</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none">Privacy Policy</a></li>
-              <li className="mb-2"><a href="#" className="text-inherit text-decoration-none">Terms of Service</a></li>
-            </ul>
-          </div>
-
-          {/* Contact & Trust */}
-          <div className="col-lg-4 col-md-6">
-            <h6 className="fw-bold mb-3">Contact Us</h6>
-            <div className="d-flex align-items-center mb-3 text-secondary small">
-              <i className="bi bi-envelope me-2"></i> support@cleancrew.com
-            </div>
-            <div className="d-flex align-items-center mb-4 text-secondary small">
-              <i className="bi bi-telephone me-2"></i> +91 8666888008
-            </div>
-
-            <div className="p-3 rounded-3 bg-secondary bg-opacity-10">
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <span className="small fw-bold">Satisfaction Guarantee</span>
-                <span className="text-success small">100%</span>
-              </div>
-              <div className="progress" style={{ height: '4px' }}>
-                <div className="progress-bar bg-success w-100"></div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <hr className="my-4 border-secondary opacity-25" />
-
-        <div className="row align-items-center">
-          <div className="col-md-6 text-center text-md-start">
-            <p className="text-secondary small mb-0">
-              © 2026 CleanCrew. All rights reserved. Built for professional households.
+        <div className="row g-4 justify-content-between">
+          {/* LEFT: Brand */}
+          <div className="col-lg-4">
+            <h5 className="fw-bold mb-3" style={{ color: "#16a085" }}>CleanCrew.</h5>
+            <p className="text-light opacity-50 small mb-4" style={{ lineHeight: "1.6" }}>
+              Premium residential and commercial housekeeping services.
+              Vetted professionals you can trust.
             </p>
-          </div>
-          <div className="col-md-6 text-center text-md-end mt-3 mt-md-0">
-            {/* Payment Icons Placeholder */}
-            <div className="text-secondary fs-4 d-flex justify-content-center justify-content-md-end gap-3 opacity-50">
-              <i className="bi bi-credit-card"></i>
-              <i className="bi bi-paypal"></i>
-              <i className="bi bi-apple"></i>
+            <div className="d-flex gap-3 h5">
+              <a href="#" className="footer-icon-link"><i className="bi bi-facebook"></i></a>
+              <a href="#" className="footer-icon-link"><i className="bi bi-instagram"></i></a>
+              <a href="#" className="footer-icon-link"><i className="bi bi-twitter-x"></i></a>
             </div>
           </div>
+
+          {/* CENTER: Links */}
+          <div className="col-md-2 col-6">
+            <h6 className="fw-bold small mb-3 text-uppercase text-white opacity-25">Company</h6>
+            <ul className="list-unstyled small">
+              <li className="mb-2"><a href="#" className="footer-link">About Us</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Services</a></li>
+              <li className="mb-2"><a href="#" className="footer-link">Join Team</a></li>
+            </ul>
+          </div>
+
+          {/* RIGHT: Contact */}
+          <div className="col-md-3">
+            <h6 className="fw-bold small mb-3 text-uppercase text-white opacity-25">Contact Us</h6>
+            <p className="text-light small mb-1 opacity-50">📧 support@cleancrew.com</p>
+            <p className="text-light small mb-0 opacity-50">📞 +91 8666888008</p>
+          </div>
+        </div>
+
+        {/* BOTTOM STRIP */}
+        <div className="mt-5 pt-4 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+          <p className="text-light smaller mb-0 opacity-25">
+            © 2026 CleanCrew. All rights reserved. Professional cleaning you can count on.
+          </p>
         </div>
       </div>
+
+      <style>{`
+        .subscribe-input {
+          background-color: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: white !important;
+          border-radius: 8px !important;
+          padding: 12px 15px;
+        }
+        .subscribe-input::placeholder {
+          color: rgba(255, 255, 255, 0.3);
+        }
+        .btn-subscribe {
+          background-color: #16a085 !important;
+          color: white !important;
+          border-radius: 8px !important;
+          transition: all 0.3s ease;
+        }
+        .btn-subscribe:hover {
+          background-color: #1abc9c !important;
+          transform: scale(1.05);
+        }
+        .footer-link {
+          text-decoration: none;
+          color: rgba(255, 255, 255, 0.5);
+          transition: all 0.3s ease;
+        }
+        .footer-link:hover {
+          color: #16a085 !important;
+          padding-left: 5px;
+        }
+        .footer-icon-link {
+          color: rgba(255, 255, 255, 0.5);
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+        .footer-icon-link:hover {
+          color: #16a085 !important;
+          transform: translateY(-3px);
+          display: inline-block;
+        }
+        .smaller { font-size: 0.8rem; }
+      `}</style>
     </footer>
   );
 }

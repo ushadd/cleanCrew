@@ -163,6 +163,94 @@ function Body() {
         </div>
       </section>
 
+      {/* --- SECTION 5: FAQ --- */}
+      <section className="py-5 bg-white">
+        <div className="container">
+          <div className="text-center mb-5">
+            <h2 className="fw-bold">Frequently Asked Questions</h2>
+            <p className="text-muted">Everything you need to know about our service</p>
+          </div>
+
+          <div className="row justify-content-center">
+            <div className="col-lg-8">
+              <div className="accordion accordion-flush shadow-sm rounded-4 border overflow-hidden" id="faqAccordion">
+
+                {/* Question 1 */}
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button className="accordion-button fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                      🛡️ Are your cleaners background checked?
+                    </button>
+                  </h2>
+                  <div id="faq1" className="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div className="accordion-body text-muted">
+                      Absolutely. Every "CleanCrew" professional undergoes a rigorous multi-step background check and in-person interviews to ensure your home is in safe hands.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Question 2 */}
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button className="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                      🌿 Are your cleaning products safe for pets?
+                    </button>
+                  </h2>
+                  <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div className="accordion-body text-muted">
+                      Yes! We use eco-friendly, non-toxic cleaning agents that are 100% safe for children and pets. We don't use harsh chemicals like bleach unless specifically requested for heavy mold.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Question 3 */}
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button className="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                      📅 Can I reschedule or cancel my booking?
+                    </button>
+                  </h2>
+                  <div id="faq3" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div className="accordion-body text-muted">
+                      You can reschedule or cancel for free up to 24 hours before your scheduled slot. Cancellations made within 24 hours may incur a small convenience fee.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Question 4 */}
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button className="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                      📦 Do I need to provide any equipment?
+                    </button>
+                  </h2>
+                  <div id="faq4" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div className="accordion-body text-muted">
+                      No, our team comes fully equipped with vacuum cleaners, mops, and all necessary cleaning supplies. You just need to provide access to water and electricity.
+                    </div>
+                  </div>
+                </div>
+
+                {/* Question 5 */}
+                <div className="accordion-item">
+                  <h2 className="accordion-header">
+                    <button className="accordion-button collapsed fw-bold py-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                      💎 What happens if something gets damaged?
+                    </button>
+                  </h2>
+                  <div id="faq5" className="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div className="accordion-body text-muted">
+                      We treat your home with the utmost care, but in the rare event of an accident, CleanCrew is fully insured. We will work with you to repair or replace the damaged item immediately.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <style>{`
         .transition-all { transition: all 0.3s ease; }
         .transition-all:hover { transform: translateY(-5px); }
