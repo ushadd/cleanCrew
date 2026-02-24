@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { User, Clock, CheckCircle, Star, ArrowRight, Shield, Briefcase } from "lucide-react";
+import { User, Clock, CheckCircle, ArrowRight, Shield, Briefcase } from "lucide-react";
 import { getStaffDetails, seedStaffData } from "../services/api";
 import "./StaffSelection.css";
 
@@ -11,7 +11,8 @@ function StaffSelection() {
     const [loading, setLoading] = useState(true);
     const [selectedStaff, setSelectedStaff] = useState(null);
 
-    const selectedService = location.state?.selectedService || "";
+    // Retrieve service from state, or fallback to 'General Cleaning' if lost during login redirect
+    const selectedService = location.state?.selectedService || "General Cleaning";
 
     useEffect(() => {
         fetchStaff();
@@ -22,70 +23,44 @@ function StaffSelection() {
             const response = await getStaffDetails();
             let staffData = response.data;
 
-            // If no staff in database, seed the data
             if (!staffData || staffData.length === 0) {
                 try {
                     await seedStaffData();
-                    // Fetch again after seeding
                     const newResponse = await getStaffDetails();
                     staffData = newResponse.data;
                 } catch (seedError) {
-                    console.log("Seeding not available, using mock data");
+                    console.log("Seeding failed, using mock data");
                 }
             }
 
-            // Filter staff that are verified/available
             const availableStaff = staffData.filter(
                 (staff) => staff.verified === "Accepted" || staff.verified === "Pending"
             );
-            setStaffList(availableStaff);
+            setStaffList(availableStaff.length > 0 ? availableStaff : getMockData());
         } catch (error) {
             console.error("Error fetching staff:", error);
-            // Use mock data for demo purposes if API fails
-            setStaffList([
-                {
-                    id: 1,
-                    staff: { user_name: "John Smith" },
-                    experience: "5 years",
-                    availability: "Mon-Sat",
-                    verified: "Accepted"
-                },
-                {
-                    id: 2,
-                    staff: { user_name: "Sarah Johnson" },
-                    experience: "3 years",
-                    availability: "Mon-Fri",
-                    verified: "Accepted"
-                },
-                {
-                    id: 3,
-                    staff: { user_name: "Mike Davis" },
-                    experience: "7 years",
-                    availability: "Tue-Sun",
-                    verified: "Accepted"
-                },
-                { id: 4, staff: { user_name: "Emily White" }, experience: "4 years", availability: "Daily", verified: "Accepted" },
-                { id: 5, staff: { user_name: "Robert Brown" }, experience: "6 years", availability: "Weekends", verified: "Accepted" },
-                { id: 6, staff: { user_name: "Lisa Wilson" }, experience: "2 years", availability: "Mon-Wed", verified: "Pending" },
-                { id: 7, staff: { user_name: "David Miller" }, experience: "8 years", availability: "Full-time", verified: "Accepted" },
-                { id: 8, staff: { user_name: "Anna Garcia" }, experience: "5 years", availability: "Evenings", verified: "Accepted" },
-                { id: 9, staff: { user_name: "Kevin Lee" }, experience: "3 years", availability: "Thu-Sat", verified: "Accepted" }
-
-            ]);
+            setStaffList(getMockData());
         } finally {
             setLoading(false);
         }
     };
 
-    const handleSelectStaff = (staff) => {
-        setSelectedStaff(staff);
-    };
+    const getMockData = () => [
+        { id: 1, staff: { user_name: "John Smith" }, experience: "5 years", availability: "Mon-Sat", verified: "Accepted" },
+        { id: 2, staff: { user_name: "Sarah Johnson" }, experience: "3 years", availability: "Mon-Fri", verified: "Accepted" },
+        { id: 3, staff: { user_name: "Mike Davis" }, experience: "7 years", availability: "Tue-Sun", verified: "Accepted" },
+        { id: 4, staff: { user_name: "Emily White" }, experience: "4 years", availability: "Daily", verified: "Accepted" },
+        { id: 5, staff: { user_name: "Robert Brown" }, experience: "6 years", availability: "Weekends", verified: "Accepted" },
+        { id: 6, staff: { user_name: "Lisa Wilson" }, experience: "2 years", availability: "Mon-Wed", verified: "Accepted" },
+        { id: 7, staff: { user_name: "David Miller" }, experience: "8 years", availability: "Full-time", verified: "Accepted" },
+        { id: 8, staff: { user_name: "Anna Garcia" }, experience: "5 years", availability: "Evenings", verified: "Accepted" },
+        { id: 9, staff: { user_name: "Kevin Lee" }, experience: "3 years", availability: "Thu-Sat", verified: "Accepted" }
+
+
+    ];
 
     const handleContinue = () => {
         if (selectedStaff) {
-            // Get the User id from the staff relationship - check both real API and mock data formats
-            // Real API: selectedStaff.staff.id is the User id
-            // Mock data: selectedStaff.id is the only id available
             const userId = selectedStaff.staff?.id || selectedStaff.id;
             navigate("/booking", {
                 state: {
@@ -93,7 +68,7 @@ function StaffSelection() {
                     selectedStaff: {
                         id: userId,
                         staffDetailsId: selectedStaff.id,
-                        name: selectedStaff.staff?.user_name || selectedStaff.name || "Staff Member",
+                        name: selectedStaff.staff?.user_name || "Staff Member",
                         experience: selectedStaff.experience,
                         availability: selectedStaff.availability
                     }
@@ -106,85 +81,71 @@ function StaffSelection() {
         return (
             <div className="staff-loading">
                 <div className="spinner"></div>
-                <p>Loading available staff...</p>
+                <p>Finding the best professionals for you...</p>
             </div>
         );
     }
 
     return (
         <div className="staff-selection-wrapper">
-            <div className="staff-selection-container">
-                <div className="staff-header">
-                    <h2>Select Your Service Provider</h2>
-                    <p>Choose from our verified and experienced cleaning professionals</p>
+            <div className="container py-5">
+                <div className="staff-header text-center mb-5">
+                    <h2 className="fw-bold">Select Your Professional</h2>
+                    <p className="text-muted">Verified experts for your <strong>{selectedService}</strong></p>
                 </div>
 
-                {selectedService && (
-                    <div className="selected-service-badge">
-                        <span>Service: </span>
-                        <strong>{selectedService}</strong>
-                    </div>
-                )}
-
-                <div className="staff-grid">
+                <div className="row g-4">
                     {staffList.map((staff) => (
-                        <div
-                            key={staff.id}
-                            className={`staff-card ${selectedStaff?.id === staff.id ? "selected" : ""}`}
-                            onClick={() => handleSelectStaff(staff)}
-                        >
-                            <div className="staff-avatar">
-                                <User size={40} />
-                            </div>
-
-                            <div className="staff-info">
-                                <h3>{staff.staff?.user_name || "Staff Member"}</h3>
-
-                                <div className="staff-meta">
-                                    <div className="meta-item">
-                                        <Briefcase size={16} />
-                                        <span>{staff.experience || "Experience info"}</span>
+                        <div className="col-lg-4 col-md-6" key={staff.id}>
+                            <div
+                                className={`staff-card-custom ${selectedStaff?.id === staff.id ? "active-card" : ""}`}
+                                onClick={() => setSelectedStaff(staff)}
+                            >
+                                <div className="d-flex align-items-center mb-3">
+                                    <div className="avatar-circle">
+                                        <User size={30} color="#1abc9c" />
                                     </div>
-                                    <div className="meta-item">
-                                        <Clock size={16} />
-                                        <span>{staff.availability || "Availability info"}</span>
+                                    <div className="ms-3">
+                                        <h5 className="mb-0 fw-bold text-dark">{staff.staff?.user_name || "Staff Member"}</h5>
+                                        {staff.verified === "Accepted" && (
+                                            <span className="badge-verified">
+                                                <Shield size={12} className="me-1" /> Verified
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
 
-                                {staff.verified === "Accepted" && (
-                                    <div className="verified-badge">
-                                        <Shield size={14} />
-                                        <span>Verified</span>
+                                <div className="staff-details-box">
+                                    <div className="detail-row">
+                                        <Briefcase size={16} />
+                                        <span>{staff.experience} Experience</span>
+                                    </div>
+                                    <div className="detail-row">
+                                        <Clock size={16} />
+                                        <span>Available: {staff.availability}</span>
+                                    </div>
+                                </div>
+
+                                {selectedStaff?.id === staff.id && (
+                                    <div className="selection-indicator">
+                                        <CheckCircle size={20} />
                                     </div>
                                 )}
                             </div>
-
-                            {selectedStaff?.id === staff.id && (
-                                <div className="selected-check">
-                                    <CheckCircle size={24} color="#10b981" />
-                                </div>
-                            )}
                         </div>
                     ))}
                 </div>
 
-                {staffList.length === 0 && (
-                    <div className="no-staff">
-                        <p>No staff available at the moment. Please try again later.</p>
-                    </div>
-                )}
-
-                <div className="staff-actions">
-                    <button
-                        className="continue-btn"
-                        onClick={handleContinue}
-                        disabled={!selectedStaff}
-                    >
-                        Continue with Booking
-                        <ArrowRight size={20} />
+                <div className="text-center mt-5 d-flex justify-content-center gap-3">
+                    <button className="btn-back" onClick={() => navigate(-1)}>
+                        Back
                     </button>
-                    <button className="back-btn" onClick={() => navigate("/services")}>
-                        Back to Services
+                    <button
+                        className="btn-continue"
+                        disabled={!selectedStaff}
+                        onClick={handleContinue}
+                    >
+                        Continue to Booking <ArrowRight size={18} className="ms-2" />
                     </button>
                 </div>
             </div>
