@@ -22,7 +22,7 @@ function Banner() {
             </h1>
 
             <p className="lead text-muted mb-4" style={{ fontSize: '1.1rem' }}>
-              Join 10,000+ homeowners who trust our vetted, background-checked
+              Join 100+ homeowners who trust our vetted, background-checked
               professionals to keep their spaces pristine.
             </p>
 
@@ -55,11 +55,7 @@ function Banner() {
             </div>
 
             {/* Trust Bar */}
-            <div className="mt-5 d-flex gap-4 align-items-center opacity-50">
-              <small className="fw-bold text-uppercase" style={{ letterSpacing: '1px', fontSize: '0.75rem' }}>Trusted By:</small>
-              <span className="fw-extrabold fst-italic h5 mb-0">Forbes</span>
-              <span className="fw-extrabold fst-italic h5 mb-0">TechCrunch</span>
-            </div>
+
           </div>
 
           {/* Right Side: Professional Image */}
@@ -79,7 +75,7 @@ function Banner() {
               >
                 <p className="mb-0 small fw-bold text-dark">
                   <span style={{ color: '#00A699', marginRight: '5px' }}>✓</span>
-                  100% Satisfaction Guarantee
+                  95% Satisfaction Guarantee
                 </p>
               </div>
             </div>
