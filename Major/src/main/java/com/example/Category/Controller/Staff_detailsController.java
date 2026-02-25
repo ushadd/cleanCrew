@@ -36,6 +36,12 @@ public class Staff_detailsController {
         return staffDetailsService.getAcceptedStaff();
     }
 
+    // Get pending staff for admin verification
+    @GetMapping("/pending")
+    public List<Staff_Details> getPendingStaff() {
+        return staffDetailsService.getPendingStaff();
+    }
+
     // This Below Code For fetch The Data By id.
     @GetMapping("/{id}")
     public Staff_Details getstaffdetailsbyid(@PathVariable Long id) {

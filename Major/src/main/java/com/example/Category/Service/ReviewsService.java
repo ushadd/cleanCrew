@@ -62,19 +62,8 @@ public class ReviewsService {
 
     // This Below Code for Insert The Data
     public Reviews addReviews(Reviews reviews) {
-        // Validate that the booking is completed before allowing review
-        if (reviews.getBooking() != null) {
-            Integer bookingId = reviews.getBooking().getBookingId();
-            if (bookingId != null) {
-                Booking booking = bookingRepository.findById(bookingId).orElse(null);
-                if (booking == null || !"Completed".equals(booking.getStatus())) {
-                    throw new RuntimeException("Cannot submit review: Service has not been completed yet!");
-                }
-            }
-        }
-        // The frontend sends 'id' for booking and staff, but entity uses 'bookingId'
-        // and 'userId'
-        // Spring Data JPA will handle the relationship properly when the IDs are set
+        // Save the review directly to database without requiring booking completion
+        // This allows customers to submit reviews without needing a completed booking
         return reviewsRepo.save(reviews);
     }
 

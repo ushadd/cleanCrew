@@ -127,6 +127,11 @@ export const getAvailableStaff = async () => {
   return await api.get("/staff/available");
 };
 
+// Fetch pending staff (for admin verification)
+export const getPendingStaff = async () => {
+  return await api.get("/staff/pending");
+};
+
 // Fetch staff by ID
 export const getStaffById = async (id) => {
   return await api.get(`/staff/${id}`);

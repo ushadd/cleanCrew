@@ -5,7 +5,8 @@ import {
     getStaffDetails,
     updateStaffVerification,
     switchUserRole,
-    getBookings
+    getBookings,
+    getPendingStaff
 } from "../services/api";
 import {
     Users,
@@ -26,6 +27,7 @@ function AdminDashboard() {
     const [activeTab, setActiveTab] = useState("staff");
     const [loading, setLoading] = useState(true);
     const [staffList, setStaffList] = useState([]);
+    const [pendingStaffList, setPendingStaffList] = useState([]);
     const [userList, setUserList] = useState([]);
     const [bookings, setBookings] = useState([]);
     const [processing, setProcessing] = useState(null);
@@ -45,14 +47,16 @@ function AdminDashboard() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [staffRes, usersRes, bookingsRes] = await Promise.all([
+            const [staffRes, usersRes, bookingsRes, pendingRes] = await Promise.all([
                 getStaffDetails(),
                 getAllUsers(),
-                getBookings()
+                getBookings(),
+                getPendingStaff()
             ]);
             setStaffList(staffRes.data || []);
             setUserList(usersRes.data || []);
             setBookings(bookingsRes.data || []);
+            setPendingStaffList(pendingRes.data || []);
         } catch (err) {
             console.error("Error fetching data:", err);
             setMessage("Failed to load data");
@@ -145,6 +149,9 @@ function AdminDashboard() {
                     onClick={() => setActiveTab("staff")}
                 >
                     <UserCheck size={18} /> Staff Verification
+                    {pendingStaffList.length > 0 && (
+                        <span className="pending-badge">{pendingStaffList.length}</span>
+                    )}
                 </button>
                 <button
                     className={`tab-btn ${activeTab === "users" ? "active" : ""}`}
@@ -164,6 +171,59 @@ function AdminDashboard() {
                 {activeTab === "staff" && (
                     <div className="staff-verification">
                         <h3>Staff Verification Requests</h3>
+
+                        {/* Pending Staff Section */}
+                        {pendingStaffList.length > 0 && (
+                            <div className="pending-section">
+                                <h4>Pending Verification ({pendingStaffList.length})</h4>
+                                <div className="data-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Experience</th>
+                                                <th>Availability</th>
+                                                <th>Service Type</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {pendingStaffList.map((staff) => (
+                                                <tr key={staff.id}>
+                                                    <td>{staff.staff?.user_name || "N/A"}</td>
+                                                    <td>{staff.staff?.user_mail || "N/A"}</td>
+                                                    <td>{staff.experience || "N/A"}</td>
+                                                    <td>{staff.availability || "N/A"}</td>
+                                                    <td>{staff.serviceType || "N/A"}</td>
+                                                    <td>
+                                                        <div className="action-buttons">
+                                                            <button
+                                                                className="btn-accept"
+                                                                onClick={() => handleVerifyStaff(staff.id, "Accepted")}
+                                                                disabled={processing === staff.id}
+                                                            >
+                                                                <CheckCircle size={16} /> Accept
+                                                            </button>
+                                                            <button
+                                                                className="btn-reject"
+                                                                onClick={() => handleVerifyStaff(staff.id, "Rejected")}
+                                                                disabled={processing === staff.id}
+                                                            >
+                                                                <XCircle size={16} /> Reject
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* All Staff Section */}
+                        <h4>All Staff</h4>
                         {staffList.length > 0 ? (
                             <div className="data-table">
                                 <table>
@@ -367,6 +427,38 @@ function AdminDashboard() {
         .tab-btn.active {
           background: #3b82f6;
           color: white;
+        }
+        
+        .pending-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: #ef4444;
+          color: white;
+          font-size: 11px;
+          font-weight: bold;
+          padding: 2px 6px;
+          border-radius: 10px;
+          margin-left: 6px;
+          min-width: 18px;
+          height: 18px;
+        }
+        
+        .pending-section {
+          margin-bottom: 30px;
+          padding-bottom: 20px;
+          border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .pending-section h4 {
+          color: #92400e;
+          margin-bottom: 15px;
+        }
+        
+        .admin-content h4 {
+          margin-top: 20px;
+          margin-bottom: 15px;
+          color: #374151;
         }
         
         .admin-content {

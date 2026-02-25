@@ -1,5 +1,6 @@
 package com.example.Category.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class User {
     private UserRole user_role = UserRole.Customer;
 
     @OneToOne(mappedBy = "staff", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("staff")
     private Staff_Details staffDetails;
 
     public enum UserRole {

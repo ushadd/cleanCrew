@@ -32,27 +32,9 @@ function Reviews() {
     }, []);
 
     const checkBookingCompleted = async () => {
-        if (!bookingInfo || !bookingInfo.id) {
-            setCheckingStatus(false);
-            return;
-        }
-
-        try {
-            const response = await checkBookingStatus(bookingInfo.id);
-            const data = response.data;
-            setBookingStatus(data);
-
-            if (!data.isCompleted) {
-                setError(`Cannot submit review: Service is "${data.currentStatus}". Please wait for the staff to complete the service first.`);
-            }
-        } catch (err) {
-            console.error("Error checking booking status:", err);
-            // If we can't check status, allow submission but show warning
-            setBookingStatus({ isCompleted: false, currentStatus: "Unknown" });
-            setError("Unable to verify booking status. Please contact support if you believe this is an error.");
-        } finally {
-            setCheckingStatus(false);
-        }
+        // Skip booking status check - allow reviews to be submitted without completed booking
+        // This enables users to submit reviews directly
+        setCheckingStatus(false);
     };
 
     const fetchReviews = async () => {
@@ -66,12 +48,6 @@ function Reviews() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Additional check - if booking info exists and is not completed, prevent submission
-        if (bookingInfo && bookingInfo.id && bookingStatus && !bookingStatus.isCompleted) {
-            alert("Cannot submit review: Service has not been completed yet! Please wait for the staff to mark the service as completed.");
-            return;
-        }
 
         if (rating === 0) {
             alert("Please select a rating");
@@ -156,7 +132,7 @@ function Reviews() {
                         <p>Please share your feedback about the service</p>
                     </div>
 
-                    {/* Show error if service is not completed */}
+                    {/* Show info message about submitting review */}
                     {error && (
                         <div className="booking-status-error">
                             <AlertCircle size={20} />
@@ -227,12 +203,10 @@ function Reviews() {
                         <button
                             type="submit"
                             className="submit-btn"
-                            disabled={rating === 0 || loading || (bookingStatus && !bookingStatus.isCompleted)}
+                            disabled={rating === 0 || loading}
                         >
                             {loading ? (
                                 "Submitting..."
-                            ) : bookingStatus && !bookingStatus.isCompleted ? (
-                                "Review Disabled - Service Not Completed"
                             ) : (
                                 <>
                                     Submit Review

@@ -33,8 +33,12 @@ public class Staff_detailsService {
 
     // Get all verified/accepted staff for customer selection
     public List<Staff_Details> getAcceptedStaff() {
-        return staffDetailsRepository.findByVerifiedIn(
-                List.of(Staff_Details.VerificationStatus.Accepted, Staff_Details.VerificationStatus.Pending));
+        return staffDetailsRepository.findByVerified(Staff_Details.VerificationStatus.Accepted);
+    }
+
+    // Get all pending staff for admin verification
+    public List<Staff_Details> getPendingStaff() {
+        return staffDetailsRepository.findByVerified(Staff_Details.VerificationStatus.Pending);
     }
 
     public Staff_Details insertstaff(Staff_Details staffDetails) {

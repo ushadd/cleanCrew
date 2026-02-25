@@ -1,5 +1,6 @@
 package com.example.Category.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,12 +17,15 @@ public class Reviews {
     private Long id;
 
     @ManyToOne
+    @JsonIgnoreProperties("reviews")
     private Booking booking;
 
     @ManyToOne
+    @JsonIgnoreProperties({ "reviews", "staffDetails", "bookings" })
     private User customer;
 
     @ManyToOne
+    @JsonIgnoreProperties({ "reviews", "staffDetails", "bookings" })
     private User staff;
 
     private Integer rating;

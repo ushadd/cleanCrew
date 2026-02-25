@@ -1,5 +1,6 @@
 package com.example.Category.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,12 +19,15 @@ public class Booking {
     private Integer bookingId;
 
     @ManyToOne
+    @JsonIgnoreProperties({ "bookings", "staffDetails", "reviews" })
     private User customer;
 
     @ManyToOne
+    @JsonIgnoreProperties({ "bookings", "staffDetails", "reviews" })
     private User staff;
 
     @ManyToOne
+    @JsonIgnoreProperties({ "bookings" })
     private Services services;
 
     private LocalDateTime booking_date_time;
@@ -31,23 +35,5 @@ public class Booking {
     private String property_type;
     private Boolean customerConfirmation = false;
     private Boolean staffConfirmation = false;
-
-    /*
-     * public enum booking_status{
-     * Pending,
-     * Accepted,
-     * Completed,
-     * Cancelled
-     * 
-     * }
-     * public enum property_type{
-     * School,
-     * College,
-     * Office,
-     * Home,
-     * Apartment
-     * }
-     * 
-     */
 
 }

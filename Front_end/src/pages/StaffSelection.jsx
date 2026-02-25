@@ -34,7 +34,7 @@ function StaffSelection() {
             }
 
             const availableStaff = staffData.filter(
-                (staff) => staff.verified === "Accepted" || staff.verified === "Pending"
+                (staff) => staff.verified === "Accepted"
             );
             setStaffList(availableStaff.length > 0 ? availableStaff : getMockData());
         } catch (error) {
